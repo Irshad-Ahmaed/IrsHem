@@ -1,0 +1,59 @@
+{% extends 'Main/base.html' %}
+{% block content %}
+{% load cart_tag %}
+
+<hr class="mt-0">
+<div class="card shadow m-5" id="myorder">
+    <div class="card-body">
+        <div class="container-fluid">
+            <h3 style="font-family:roman">My Order</h3>
+            <table class="table table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th>SN.</th>
+                    <th>Product</th>
+                    <th class="text-center">Quantity</th>
+                    <th>TotalPrice</th>
+                    <th>Status</th>
+                    <th>Order Date</th>
+                    <th>Check Full status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in order %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.product}}</td>
+                    <td class="text-center">{{i.quantity}}</td>
+                    <td>Rs. {{i.total}}</td>
+                    <td>
+                       {% if i.status == 2 %}
+                       <span class="text-warning" title="Track Status">{{i.get_status_display}} </span>
+                       {% elif i.status == 3 %}
+                       <span class="text-info" title="Track Status">{{i.get_status_display}} </span>
+                       {% elif i.status == 4 %}
+                       <span class="text-primary" title="Track Status">{{i.get_status_display}} </span>
+                       {% elif i.status == 5 %}
+                       <span class="text-success" title="Track Status">{{i.get_status_display}} </span>
+                       {% else %}
+                       <span class="text-danger" title="Track Status">{{i.get_status_display}} </span>
+                       {% endif %}
+                    </td>
+                    <td>{{i.created}}</td>
+                    <td>
+                        <div class="btn_cmpted row justify-content-center align-items-center">
+                            <a href="{% url 'track_order' i.status %}" class="shop-btn" title="Check full Status">Check your status</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="btn_cmpted row justify-content-center align-items-center m-5">
+    <a href="{% url 'home' %}" class="shop-btn" title="Go To Shop">Continue Shopping </a>
+</div>
+
+{% endblock %}
